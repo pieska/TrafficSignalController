@@ -8,7 +8,7 @@ program sig_control_tb (
     output logic car_on_cntryrd_tb              // if TRUE, indicates that there is car on the country road, otherwise FALSE
 );    
 
-    timeunit 1ns/1ns;
+    timeunit 1ns/1ps;
 
     // apply stimulus
     initial
@@ -16,20 +16,22 @@ program sig_control_tb (
         #0 rst_n_tb = 0; car_on_cntryrd_tb = 0; test_failsafe_tb = 0;
         #70 rst_n_tb = 1; 
 
-        #36 car_on_cntryrd_tb = 1;
-        
-        #143 car_on_cntryrd_tb = 0;
+        #40 car_on_cntryrd_tb = 1;
+ 
+        wait(cntryrd_sig == common::GREEN);
+        #20 car_on_cntryrd_tb = 0;
         
         #150 test_failsafe_tb = 1;
         
-        #150 rst_n_tb = 0; test_failsafe_tb = 0;
+        #200 rst_n_tb = 0; test_failsafe_tb = 0;
         #70 rst_n_tb = 1; 
 
-        #36 car_on_cntryrd_tb = 1;
+        #40 car_on_cntryrd_tb = 1;
+
+        wait(cntryrd_sig == common::GREEN);
+        #80 car_on_cntryrd_tb = 0;
         
-        #143 car_on_cntryrd_tb = 0;
-        
-        #150 $finish;
+        #250 $finish;
     end
     
 endprogram: sig_control_tb

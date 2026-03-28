@@ -1,6 +1,6 @@
 module top_debounce_tb;
 
-    timeunit 1ns/1ns;
+    timeunit 1ns/1ps;
 
     localparam TICKS = 5;
     localparam JITTER_LEN = 25;

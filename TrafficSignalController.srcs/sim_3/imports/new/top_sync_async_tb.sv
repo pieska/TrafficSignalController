@@ -4,13 +4,14 @@ module top_sync_async_tb;
 
     logic clk_tb;
     logic rst_n_tb;
-    logic rst_n;
+    logic async_in_tb;
+    logic sync_out;
 
     // reset synchronizer
-    sync_async dut0(.clk(clk_tb), .rst_n(rst_n_tb), .async_in(rst_n_tb), .sync_out(rst_n));
+    sync_async dut0(.clk(clk_tb), .rst_n(rst_n_tb), .async_in(async_in_tb), .sync_out(sync_out));
 
     // testbench
-    sync_async_tb tb(.clk(clk_tb), .rst_n_tb(rst_n_tb));
+    sync_async_tb tb(.clk(clk_tb), .rst_n_tb(rst_n_tb), .async_in_tb(async_in_tb));
 
     // Set up clock
     initial
@@ -21,6 +22,6 @@ module top_sync_async_tb;
 
     // Set up monitor
     initial
-        $monitor($stime, " : clk_tb = %b rst_n_tb = %b rst_n = %b", clk_tb, rst_n_tb, rst_n);
+        $monitor($stime, " : clk_tb = %b rst_n_tb = %b async_in = %b sync_out = %b", clk_tb, rst_n_tb, async_in_tb, sync_out);
     
 endmodule: top_sync_async_tb

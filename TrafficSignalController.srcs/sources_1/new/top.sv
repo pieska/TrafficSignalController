@@ -22,7 +22,7 @@ module top (
     output logic JC4_N
 );
 
-    timeunit 1ns/1ns;
+    timeunit 1ns/1ps;
 
     common::sig_colors_e hwy_sig, cntryrd_sig;
     logic rst_n;

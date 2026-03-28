@@ -9,7 +9,7 @@ program debounce_tb
     output logic raw_in_tb
 );
 
-    timeunit 1ns/1ns;
+    timeunit 1ns/1ps;
 
     logic raw_in_array_tb[JITTER_LEN];
     
@@ -35,7 +35,8 @@ program debounce_tb
         foreach(raw_in_array_tb[i])
             #($urandom_range(3,7)) raw_in_tb = raw_in_array_tb[i];
 
-        #1000 $finish;
+        wait(debounced_out == 'b1);
+        #10 $finish;
         
     end
 

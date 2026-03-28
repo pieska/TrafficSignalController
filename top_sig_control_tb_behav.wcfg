@@ -12,15 +12,15 @@
       </db_ref>
    </db_ref_list>
    <zoom_setting>
-      <ZoomStartTime time="0 ps"></ZoomStartTime>
-      <ZoomEndTime time="8 ps"></ZoomEndTime>
-      <Cursor1Time time="0 ps"></Cursor1Time>
+      <ZoomStartTime time="452.242 ns"></ZoomStartTime>
+      <ZoomEndTime time="664.719 ns"></ZoomEndTime>
+      <Cursor1Time time="535.000 ns"></Cursor1Time>
    </zoom_setting>
    <column_width_setting>
-      <NameColumnWidth column_width="260"></NameColumnWidth>
-      <ValueColumnWidth column_width="60"></ValueColumnWidth>
+      <NameColumnWidth column_width="198"></NameColumnWidth>
+      <ValueColumnWidth column_width="114"></ValueColumnWidth>
    </column_width_setting>
-   <WVObjectSize size="10" />
+   <WVObjectSize size="13" />
    <wvobject type="logic" fp_name="/top_sig_control_tb/clk_tb">
       <obj_property name="ElementShortName">clk_tb</obj_property>
       <obj_property name="ObjectShortName">clk_tb</obj_property>
@@ -60,5 +60,17 @@
    <wvobject type="logic" fp_name="/top_sig_control_tb/test_failsafe">
       <obj_property name="ElementShortName">test_failsafe</obj_property>
       <obj_property name="ObjectShortName">test_failsafe</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/top_sig_control_tb/dut3/blink_on">
+      <obj_property name="ElementShortName">blink_on</obj_property>
+      <obj_property name="ObjectShortName">blink_on</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/top_sig_control_tb/dut3/current_hold_time">
+      <obj_property name="ElementShortName">current_hold_time[31:0]</obj_property>
+      <obj_property name="ObjectShortName">current_hold_time[31:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/top_sig_control_tb/dut3/current_state">
+      <obj_property name="ElementShortName">current_state[3:0]</obj_property>
+      <obj_property name="ObjectShortName">current_state[3:0]</obj_property>
    </wvobject>
 </wave_config>
