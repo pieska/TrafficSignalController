@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wave_config>
+   <wave_state>
+   </wave_state>
+   <db_ref_list>
+      <db_ref path="top_sig_control_tb_behav.wdb" id="1">
+         <top_modules>
+            <top_module name="common" />
+            <top_module name="glbl" />
+            <top_module name="top_sig_control_tb" />
+         </top_modules>
+      </db_ref>
+   </db_ref_list>
+   <zoom_setting>
+      <ZoomStartTime time="0 ps"></ZoomStartTime>
+      <ZoomEndTime time="8 ps"></ZoomEndTime>
+      <Cursor1Time time="0 ps"></Cursor1Time>
+   </zoom_setting>
+   <column_width_setting>
+      <NameColumnWidth column_width="260"></NameColumnWidth>
+      <ValueColumnWidth column_width="60"></ValueColumnWidth>
+   </column_width_setting>
+   <WVObjectSize size="10" />
+   <wvobject type="logic" fp_name="/top_sig_control_tb/clk_tb">
+      <obj_property name="ElementShortName">clk_tb</obj_property>
+      <obj_property name="ObjectShortName">clk_tb</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/top_sig_control_tb/rst_n">
+      <obj_property name="ElementShortName">rst_n</obj_property>
+      <obj_property name="ObjectShortName">rst_n</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/top_sig_control_tb/test_failsafe_tb">
+      <obj_property name="ElementShortName">test_failsafe_tb</obj_property>
+      <obj_property name="ObjectShortName">test_failsafe_tb</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/top_sig_control_tb/car_on_cntryrd">
+      <obj_property name="ElementShortName">car_on_cntryrd</obj_property>
+      <obj_property name="ObjectShortName">car_on_cntryrd</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/top_sig_control_tb/failsafe_entered">
+      <obj_property name="ElementShortName">failsafe_entered</obj_property>
+      <obj_property name="ObjectShortName">failsafe_entered</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/top_sig_control_tb/hwy_sig">
+      <obj_property name="ElementShortName">hwy_sig[2:0]</obj_property>
+      <obj_property name="ObjectShortName">hwy_sig[2:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/top_sig_control_tb/cntryrd_sig">
+      <obj_property name="ElementShortName">cntryrd_sig[2:0]</obj_property>
+      <obj_property name="ObjectShortName">cntryrd_sig[2:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/top_sig_control_tb/rst_n_tb">
+      <obj_property name="ElementShortName">rst_n_tb</obj_property>
+      <obj_property name="ObjectShortName">rst_n_tb</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/top_sig_control_tb/car_on_cntryrd_tb">
+      <obj_property name="ElementShortName">car_on_cntryrd_tb</obj_property>
+      <obj_property name="ObjectShortName">car_on_cntryrd_tb</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/top_sig_control_tb/test_failsafe">
+      <obj_property name="ElementShortName">test_failsafe</obj_property>
+      <obj_property name="ObjectShortName">test_failsafe</obj_property>
+   </wvobject>
+</wave_config>
