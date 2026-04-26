@@ -13,7 +13,7 @@ module sig_control #(parameter HOLD_FACTOR = 1)(
     localparam R_HOLD  = HOLD_FACTOR * 4,   // holdtime red
                Y_HOLD  = HOLD_FACTOR * 2,   // holdtime yellow
                G_HOLD  = HOLD_FACTOR * 3,   // holdtime green
-               Y_BLINK = HOLD_FACTOR * 2;   // blinktime yellow in failsafe state
+               Y_BLINK = HOLD_FACTOR * 0.5;   // blinktime yellow in failsafe state
 
     // state enum type    
     typedef enum logic [3:0] {
@@ -90,7 +90,7 @@ module sig_control #(parameter HOLD_FACTOR = 1)(
             HWOG:       begin
                             hwy_sig = common::GREEN;
                             if(car_on_cntryrd)
-                                next = '{HWTR, Y_HOLD};
+                                next = '{HWTR, Y_HOLD}; // sobald car_on_cntryrd == 1 wird umgeschaltet
                         end
             HWTR:       begin
                             hwy_sig = common::YELLOW;
@@ -100,7 +100,7 @@ module sig_control #(parameter HOLD_FACTOR = 1)(
             CROG:       begin
                             cntryrd_sig = common::GREEN;
                             if(!car_on_cntryrd)
-                                next = '{CRTR, Y_HOLD};
+                                next = '{CRTR, Y_HOLD}; // sobald car_on_cntryrd == 0 wird umgeschaltet
                         end
             CRTR:       begin
                             cntryrd_sig = common::YELLOW;

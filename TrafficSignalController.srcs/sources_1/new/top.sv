@@ -3,13 +3,13 @@ module top (
 	input logic BTNC,
 	input logic BTND,
 	input logic SW0,
-    output logic LD0,
-    output logic LD1,
-    output logic LD2,
-    output logic LD3,
-    output logic LD4,
-    output logic LD5,
-    output logic LD7,
+    output logic LD0,   // cntryrd green
+    output logic LD1,   // cntryrd yellow
+    output logic LD2,   // cntryrd red
+    output logic LD3,   // hwy green
+    output logic LD4,   // hwy yellow
+    output logic LD5,   // hwy red
+    output logic LD7,   // failsafe
     
     // debug pins
     output logic JC1_P,
