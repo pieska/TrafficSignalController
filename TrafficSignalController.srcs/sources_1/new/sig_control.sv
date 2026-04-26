@@ -1,4 +1,8 @@
-module sig_control #(parameter HOLD_FACTOR = 1)(
+module sig_control
+#(
+    parameter int unsigned HOLD_FACTOR = common::s_to_ticks(1)
+)
+(
     input logic clk,
     input logic rst_n,
     input logic test_failsafe,                  // test failsafe mode

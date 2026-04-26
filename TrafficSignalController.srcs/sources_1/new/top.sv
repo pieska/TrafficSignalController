@@ -1,4 +1,5 @@
-module top (
+module top
+(
 	input logic GCLK,
 	input logic BTNC,
 	input logic BTND,
@@ -28,25 +29,50 @@ module top (
     logic rst_n;
     logic test_failsafe;
     logic car_on_cntryrd;
+    logic car_on_cntryrd_stable;
     logic failsafe_entered;
 
     // reset synchronizer
-    sync_async rs(.clk(GCLK), .rst_n(~BTNC), .async_in(~BTNC), .sync_out(rst_n));
+    sync_async rs
+    (
+        .clk(GCLK),
+        .rst_n(~BTNC),
+        .async_in(~BTNC),
+        .sync_out(rst_n)
+    );
 
     // switch synchronizer
-    debounce #(.STABLE_TICKS(5_000_000)) sw_deb(.clk(GCLK), .rst_n(rst_n), .raw_in(SW0), .debounced_out(car_on_cntryrd));
+    debounce #(.STABLE_TICKS(common::ms_to_ticks(50))) sw_deb(
+        .clk(GCLK),
+        .rst_n(rst_n),
+        .raw_in(SW0),
+        .debounced_out(car_on_cntryrd)
+    );
+    
+    // stable filter
+    presence_filter #(.TICKS_HI(common::s_to_ticks(10)), .TICKS_LO(common::s_to_ticks(20))) pf_car_on_cntryrd(
+        .clk(GCLK),
+        .rst_n(rst_n),
+        .raw_in(car_on_cntryrd),
+        .filtered_out(car_on_cntryrd_stable)
+    );
 
     // button synchronizer
-    debounce #(.STABLE_TICKS(5_000_000)) btnd_deb(.clk(GCLK), .rst_n(rst_n), .raw_in(BTND), .debounced_out(test_failsafe));
+    debounce #(.STABLE_TICKS(common::ms_to_ticks(50))) btnd_deb(
+        .clk(GCLK),
+        .rst_n(rst_n),
+        .raw_in(BTND),
+        .debounced_out(test_failsafe)
+    );
 
     // signal controller
-    sig_control #(.HOLD_FACTOR(100_000_000)) sc(
+    sig_control #(.HOLD_FACTOR(common::s_to_ticks(1))) sc(
         .clk(GCLK),
         .rst_n(rst_n),
         .test_failsafe(test_failsafe),
         .hwy_sig(hwy_sig),
         .cntryrd_sig(cntryrd_sig),
-        .car_on_cntryrd(car_on_cntryrd),
+        .car_on_cntryrd(car_on_cntryrd_stable),
         .failsafe_entered(failsafe_entered)
     );
 

@@ -1,6 +1,6 @@
 module sync_async
 #(
-    parameter int SYNC_STAGES = 2,
+    parameter int unsigned SYNC_STAGES = 2,
     parameter logic RST_TO = 0
 )
 (

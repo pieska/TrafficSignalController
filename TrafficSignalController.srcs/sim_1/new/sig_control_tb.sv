@@ -14,22 +14,27 @@ program sig_control_tb (
     initial
     begin
         #0 rst_n_tb = 0; car_on_cntryrd_tb = 0; test_failsafe_tb = 0;
-        #70 rst_n_tb = 1; 
+        #70 rst_n_tb = 1;
 
+        wait(hwy_sig == common::GREEN);
         #40 car_on_cntryrd_tb = 1;
  
         wait(cntryrd_sig == common::GREEN);
         #20 car_on_cntryrd_tb = 0;
         
+        wait(hwy_sig == common::GREEN);
         #150 test_failsafe_tb = 1;
         
         #200 rst_n_tb = 0; test_failsafe_tb = 0;
         #70 rst_n_tb = 1; 
 
+        wait(hwy_sig == common::GREEN);
         #40 car_on_cntryrd_tb = 1;
 
         wait(cntryrd_sig == common::GREEN);
         #80 car_on_cntryrd_tb = 0;
+
+        wait(hwy_sig == common::GREEN);
         
         #250 $finish;
     end

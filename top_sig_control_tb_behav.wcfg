@@ -12,18 +12,22 @@
       </db_ref>
    </db_ref_list>
    <zoom_setting>
-      <ZoomStartTime time="452.242 ns"></ZoomStartTime>
-      <ZoomEndTime time="664.719 ns"></ZoomEndTime>
-      <Cursor1Time time="535.000 ns"></Cursor1Time>
+      <ZoomStartTime time="0.000 ns"></ZoomStartTime>
+      <ZoomEndTime time="1,625.000 ns"></ZoomEndTime>
+      <Cursor1Time time="1,625.000 ns"></Cursor1Time>
    </zoom_setting>
    <column_width_setting>
       <NameColumnWidth column_width="198"></NameColumnWidth>
-      <ValueColumnWidth column_width="114"></ValueColumnWidth>
+      <ValueColumnWidth column_width="106"></ValueColumnWidth>
    </column_width_setting>
-   <WVObjectSize size="13" />
+   <WVObjectSize size="11" />
    <wvobject type="logic" fp_name="/top_sig_control_tb/clk_tb">
       <obj_property name="ElementShortName">clk_tb</obj_property>
       <obj_property name="ObjectShortName">clk_tb</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/top_sig_control_tb/rst_n_tb">
+      <obj_property name="ElementShortName">rst_n_tb</obj_property>
+      <obj_property name="ObjectShortName">rst_n_tb</obj_property>
    </wvobject>
    <wvobject type="logic" fp_name="/top_sig_control_tb/rst_n">
       <obj_property name="ElementShortName">rst_n</obj_property>
@@ -33,13 +37,25 @@
       <obj_property name="ElementShortName">test_failsafe_tb</obj_property>
       <obj_property name="ObjectShortName">test_failsafe_tb</obj_property>
    </wvobject>
-   <wvobject type="logic" fp_name="/top_sig_control_tb/car_on_cntryrd">
-      <obj_property name="ElementShortName">car_on_cntryrd</obj_property>
-      <obj_property name="ObjectShortName">car_on_cntryrd</obj_property>
+   <wvobject type="logic" fp_name="/top_sig_control_tb/test_failsafe">
+      <obj_property name="ElementShortName">test_failsafe</obj_property>
+      <obj_property name="ObjectShortName">test_failsafe</obj_property>
    </wvobject>
    <wvobject type="logic" fp_name="/top_sig_control_tb/failsafe_entered">
       <obj_property name="ElementShortName">failsafe_entered</obj_property>
       <obj_property name="ObjectShortName">failsafe_entered</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/top_sig_control_tb/car_on_cntryrd_tb">
+      <obj_property name="ElementShortName">car_on_cntryrd_tb</obj_property>
+      <obj_property name="ObjectShortName">car_on_cntryrd_tb</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/top_sig_control_tb/car_on_cntryrd">
+      <obj_property name="ElementShortName">car_on_cntryrd</obj_property>
+      <obj_property name="ObjectShortName">car_on_cntryrd</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/top_sig_control_tb/car_on_cntryrd_stable">
+      <obj_property name="ElementShortName">car_on_cntryrd_stable</obj_property>
+      <obj_property name="ObjectShortName">car_on_cntryrd_stable</obj_property>
    </wvobject>
    <wvobject type="array" fp_name="/top_sig_control_tb/hwy_sig">
       <obj_property name="ElementShortName">hwy_sig[2:0]</obj_property>
@@ -48,29 +64,5 @@
    <wvobject type="array" fp_name="/top_sig_control_tb/cntryrd_sig">
       <obj_property name="ElementShortName">cntryrd_sig[2:0]</obj_property>
       <obj_property name="ObjectShortName">cntryrd_sig[2:0]</obj_property>
-   </wvobject>
-   <wvobject type="logic" fp_name="/top_sig_control_tb/rst_n_tb">
-      <obj_property name="ElementShortName">rst_n_tb</obj_property>
-      <obj_property name="ObjectShortName">rst_n_tb</obj_property>
-   </wvobject>
-   <wvobject type="logic" fp_name="/top_sig_control_tb/car_on_cntryrd_tb">
-      <obj_property name="ElementShortName">car_on_cntryrd_tb</obj_property>
-      <obj_property name="ObjectShortName">car_on_cntryrd_tb</obj_property>
-   </wvobject>
-   <wvobject type="logic" fp_name="/top_sig_control_tb/test_failsafe">
-      <obj_property name="ElementShortName">test_failsafe</obj_property>
-      <obj_property name="ObjectShortName">test_failsafe</obj_property>
-   </wvobject>
-   <wvobject type="logic" fp_name="/top_sig_control_tb/dut3/blink_on">
-      <obj_property name="ElementShortName">blink_on</obj_property>
-      <obj_property name="ObjectShortName">blink_on</obj_property>
-   </wvobject>
-   <wvobject type="array" fp_name="/top_sig_control_tb/dut3/current_hold_time">
-      <obj_property name="ElementShortName">current_hold_time[31:0]</obj_property>
-      <obj_property name="ObjectShortName">current_hold_time[31:0]</obj_property>
-   </wvobject>
-   <wvobject type="array" fp_name="/top_sig_control_tb/dut3/current_state">
-      <obj_property name="ElementShortName">current_state[3:0]</obj_property>
-      <obj_property name="ObjectShortName">current_state[3:0]</obj_property>
    </wvobject>
 </wave_config>

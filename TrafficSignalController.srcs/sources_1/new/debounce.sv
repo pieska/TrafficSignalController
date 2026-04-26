@@ -1,7 +1,7 @@
 module debounce
 #(
-    parameter int STABLE_TICKS = 5_000_000,  // should be 20-50ms, <debouncetime in ms>/(1/clk*1000)
-    parameter int SYNC_STAGES = 2
+    parameter int unsigned STABLE_TICKS = common::ms_to_ticks(50),  // should be 20-50ms
+    parameter int unsigned SYNC_STAGES = 2
 )
 (
     input logic clk,
@@ -11,7 +11,7 @@ module debounce
 );
 
     timeunit 1ns/1ps;
-  
+
     logic raw_in_sync;
     logic last_raw_in;
     int unsigned counter;
