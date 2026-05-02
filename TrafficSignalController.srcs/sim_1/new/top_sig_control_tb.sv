@@ -80,7 +80,7 @@ module top_sig_control_tb;
   
     // Set up monitor
     initial
-        $monitor($stime, " : Highway Sig = %6s (%b) Countryroad Sig = %6s (%b) Car_on_cntryrd = %b Reset = %b Failsafe = %b",
-            hwy_sig.name(), hwy_sig, cntryrd_sig.name(), cntryrd_sig, car_on_cntryrd_tb, rst_n_tb, failsafe_entered);
+        $monitor($stime, " : Highway Sig = %6s (%b) Countryroad Sig = %6s (%b) Car_on_cntryrd = %b Reset = %b Failsafe = %b Forced Switch = %b",
+            hwy_sig.name(), hwy_sig, cntryrd_sig.name(), cntryrd_sig, car_on_cntryrd_tb, rst_n_tb, failsafe_entered, dut4.green_max_timeout);
     
 endmodule: top_sig_control_tb

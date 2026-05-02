@@ -14,10 +14,11 @@ module sig_control
 
     timeunit 1ns/1ps;
 
-    localparam R_HOLD  = HOLD_FACTOR * 4,   // holdtime red
-               Y_HOLD  = HOLD_FACTOR * 2,   // holdtime yellow
-               G_HOLD  = HOLD_FACTOR * 3,   // holdtime green
-               Y_BLINK = HOLD_FACTOR * 0.5;   // blinktime yellow in failsafe state
+    localparam R_HOLD     = HOLD_FACTOR * 4,       // holdtime red
+               Y_HOLD     = HOLD_FACTOR * 2,       // holdtime yellow
+               G_HOLD     = HOLD_FACTOR * 3,       // holdtime green
+               G_MAX_HOLD = HOLD_FACTOR * 30,      // max. holdtime green to prevent starvation
+               Y_BLINK    = HOLD_FACTOR * 0.5;     // blinktime yellow in failsafe state
 
     // state enum type    
     typedef enum logic [3:0] {
@@ -43,7 +44,15 @@ module sig_control
     (* fsm_encoding = "one_hot", fsm_safe_state = "default_state" *) state_e current_state;
     int unsigned current_hold_time;
     
+    // toggle for blinking
     logic blink_on;
+    
+    // counter and flag for forced switch if green was too long
+    int unsigned green_max_timer;
+    logic green_max_timeout;
+
+    // set flag 
+    assign green_max_timeout = (green_max_timer == 0);
 
     // Blink toggle - only active in FAIL state to blink yellow
     always_ff @(posedge clk, negedge rst_n)
@@ -55,6 +64,18 @@ module sig_control
         begin
             blink_on <= ~blink_on;
         end
+    end
+
+    // Maximaler Grün-Timer für cntryrd, verhindert Highway-Starvation
+    always_ff @(posedge clk, negedge rst_n)
+    begin
+        if (!rst_n)
+            green_max_timer <= G_MAX_HOLD;
+        else if (current_state == CROG)
+        begin
+            if (green_max_timer != 0)
+                green_max_timer <= green_max_timer - 1;
+        end else green_max_timer <= G_MAX_HOLD;   // Reset bei jedem anderen State
     end
 
     /*
@@ -103,8 +124,8 @@ module sig_control
             CRTG:       next = '{CROG, G_HOLD};
             CROG:       begin
                             cntryrd_sig = common::GREEN;
-                            if(!car_on_cntryrd)
-                                next = '{CRTR, Y_HOLD}; // sobald car_on_cntryrd == 0 wird umgeschaltet
+                            if (!car_on_cntryrd || green_max_timeout)
+                                next = '{CRTR, Y_HOLD}; // sobald car_on_cntryrd == 0 oder green too long wird umgeschaltet
                         end
             CRTR:       begin
                             cntryrd_sig = common::YELLOW;
@@ -237,6 +258,14 @@ module sig_control
     endproperty
 
     assert property(cntryrd_min_G_HOLD);
+
+    property cntryrd_max_G_HOLD;
+        @(posedge clk)
+        disable iff (!rst_n || failsafe_entered)
+        $rose(cntryrd_sig == common::GREEN) |=> (cntryrd_sig == common::GREEN)[*0:G_MAX_HOLD] ##1 (cntryrd_sig != common::GREEN);
+    endproperty
+
+    assert property(cntryrd_max_G_HOLD);
 
     /*
     ** phasenwechsel

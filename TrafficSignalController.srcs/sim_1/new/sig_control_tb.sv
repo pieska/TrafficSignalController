@@ -13,29 +13,56 @@ program sig_control_tb (
     // apply stimulus
     initial
     begin
+        // reset everything
         #0 rst_n_tb = 0; car_on_cntryrd_tb = 0; test_failsafe_tb = 0;
+        $display("reset asserted");
         #70 rst_n_tb = 1;
+        $display("reset deasserted");
 
+        // wait for default state, hwy green, put car on cntryrd
         wait(hwy_sig == common::GREEN);
         #40 car_on_cntryrd_tb = 1;
- 
+        $display("car on cntryrd arrived");
+
+        // wait for cntryrd green, car on cntryrd proceeds
         wait(cntryrd_sig == common::GREEN);
-        #20 car_on_cntryrd_tb = 0;
-        
+        #5 car_on_cntryrd_tb = 0;
+        $display("car on cntryrd left");
+
+        // wait for default state and trigger a failsafe
         wait(hwy_sig == common::GREEN);
         #150 test_failsafe_tb = 1;
-        
+        $display("failsafe triggered");
+ 
+        // reset everything, is the only way out
         #200 rst_n_tb = 0; test_failsafe_tb = 0;
-        #70 rst_n_tb = 1; 
+        $display("reset asserted");
+        #70 rst_n_tb = 1;
+        $display("reset deasserted");
 
+        // wait for default state and put a car on cntryrd again
         wait(hwy_sig == common::GREEN);
         #40 car_on_cntryrd_tb = 1;
+        $display("car on cntryrd arrived");
 
+        // wait for cntryrd green
         wait(cntryrd_sig == common::GREEN);
-        #80 car_on_cntryrd_tb = 0;
 
+        // let car_on_cntryrd_tb high and wait for a forced switch,
+        wait(cntryrd_sig == common::YELLOW);
+        $display("switch forced");
+
+        // wait for default state, cntryrd is still occupied
         wait(hwy_sig == common::GREEN);
-        
+
+        // wait for cnryrd green because car_on_cntryrd is still high, cars proceed
+        wait(cntryrd_sig == common::GREEN);
+        #5 car_on_cntryrd_tb = 0;
+        $display("car on cntryrd left");
+
+        // wait for defaulr state and trigger a failsafe
+        wait(hwy_sig == common::GREEN);
+
         #250 $finish;
     end
     
