@@ -14,9 +14,9 @@ module sig_control
 
     timeunit 1ns/1ps;
 
-    localparam R_HOLD     = HOLD_FACTOR * 4,       // holdtime red
-               Y_HOLD     = HOLD_FACTOR * 2,       // holdtime yellow
-               G_HOLD     = HOLD_FACTOR * 3,       // holdtime green
+    localparam R_MIN_HOLD = HOLD_FACTOR * 4,       // holdtime red
+               Y_MIN_HOLD = HOLD_FACTOR * 2,       // holdtime yellow
+               G_MIN_HOLD = HOLD_FACTOR * 3,       // holdtime green
                G_MAX_HOLD = HOLD_FACTOR * 30,      // max. holdtime green to prevent starvation
                Y_BLINK    = HOLD_FACTOR * 0.5;     // blinktime yellow in failsafe state
 
@@ -51,9 +51,6 @@ module sig_control
     int unsigned green_max_timer;
     logic green_max_timeout;
 
-    // set flag 
-    assign green_max_timeout = (green_max_timer == 0);
-
     // Blink toggle - only active in FAIL state to blink yellow
     always_ff @(posedge clk, negedge rst_n)
     begin
@@ -73,10 +70,13 @@ module sig_control
             green_max_timer <= G_MAX_HOLD;
         else if (current_state == CROG)
         begin
-            if (green_max_timer != 0)
+            if (green_max_timer > 0)
                 green_max_timer <= green_max_timer - 1;
         end else green_max_timer <= G_MAX_HOLD;   // Reset bei jedem anderen State
     end
+
+    // set flag 
+    assign green_max_timeout = (green_max_timer == 0);
 
     /*
     ** simple 2-process FSM with combinatorical output
@@ -110,26 +110,26 @@ module sig_control
         next.state = current_state;
         next.hold_time = current_hold_time;
         unique case(current_state)
-            INIT:       next = '{HWTG, R_HOLD};
-            HWTG:       next = '{HWOG, G_HOLD};
+            INIT:       next = '{HWTG, R_MIN_HOLD};
+            HWTG:       next = '{HWOG, G_MIN_HOLD};
             HWOG:       begin
                             hwy_sig = common::GREEN;
                             if(car_on_cntryrd)
-                                next = '{HWTR, Y_HOLD}; // sobald car_on_cntryrd == 1 wird umgeschaltet
+                                next = '{HWTR, Y_MIN_HOLD}; // sobald car_on_cntryrd == 1 wird umgeschaltet
                         end
             HWTR:       begin
                             hwy_sig = common::YELLOW;
-                            next = '{CRTG, R_HOLD};
+                            next = '{CRTG, R_MIN_HOLD};
                         end
-            CRTG:       next = '{CROG, G_HOLD};
+            CRTG:       next = '{CROG, G_MIN_HOLD};
             CROG:       begin
                             cntryrd_sig = common::GREEN;
                             if (!car_on_cntryrd || green_max_timeout)
-                                next = '{CRTR, Y_HOLD}; // sobald car_on_cntryrd == 0 oder green too long wird umgeschaltet
+                                next = '{CRTR, Y_MIN_HOLD}; // sobald car_on_cntryrd == 0 oder green too long wird umgeschaltet
                         end
             CRTR:       begin
                             cntryrd_sig = common::YELLOW;
-                            next = '{HWTG, R_HOLD};
+                            next = '{HWTG, R_MIN_HOLD};
                         end
             FAIL:      begin
                             failsafe_entered = 'b1;
@@ -151,7 +151,7 @@ module sig_control
     /*
     ** asserts
     */
-    
+
     // Beide Signale dürfen NIE gleichzeitig GREEN sein
     property no_simultaneous_green;
         @(posedge clk)
@@ -214,7 +214,7 @@ module sig_control
     property hwy_min_R_HOLD;
         @(posedge clk)
         disable iff (!rst_n || failsafe_entered)
-        $rose(hwy_sig == common::RED) |=> hwy_sig == common::RED[*R_HOLD];
+        $rose(hwy_sig == common::RED) |=> hwy_sig == common::RED[*R_MIN_HOLD];
     endproperty
 
     assert property(hwy_min_R_HOLD);
@@ -222,7 +222,7 @@ module sig_control
     property cntryrd_min_R_HOLD;
         @(posedge clk)
         disable iff (!rst_n || failsafe_entered)
-        $rose(cntryrd_sig == common::RED) |=> cntryrd_sig == common::RED[*R_HOLD];
+        $rose(cntryrd_sig == common::RED) |=> cntryrd_sig == common::RED[*R_MIN_HOLD];
     endproperty
 
     assert property(cntryrd_min_R_HOLD);
@@ -230,7 +230,7 @@ module sig_control
     property hwy_min_Y_HOLD;
         @(posedge clk)
         disable iff (!rst_n || failsafe_entered)
-        $rose(hwy_sig == common::YELLOW) |=> hwy_sig == common::YELLOW[*Y_HOLD];
+        $rose(hwy_sig == common::YELLOW) |=> hwy_sig == common::YELLOW[*Y_MIN_HOLD];
     endproperty
 
     assert property(hwy_min_Y_HOLD);
@@ -238,7 +238,7 @@ module sig_control
     property cntryrd_min_Y_HOLD;
         @(posedge clk)
         disable iff (!rst_n || failsafe_entered)
-        $rose(cntryrd_sig == common::YELLOW) |=> cntryrd_sig == common::YELLOW[*Y_HOLD];
+        $rose(cntryrd_sig == common::YELLOW) |=> cntryrd_sig == common::YELLOW[*Y_MIN_HOLD];
     endproperty
 
     assert property(cntryrd_min_Y_HOLD);
@@ -246,7 +246,7 @@ module sig_control
     property hwy_min_G_HOLD;
         @(posedge clk)
         disable iff (!rst_n || failsafe_entered)
-        $rose(hwy_sig == common::GREEN) |=> hwy_sig == common::GREEN[*G_HOLD];
+        $rose(hwy_sig == common::GREEN) |=> hwy_sig == common::GREEN[*G_MIN_HOLD];
     endproperty
 
     assert property(hwy_min_G_HOLD);
@@ -254,7 +254,7 @@ module sig_control
     property cntryrd_min_G_HOLD;
         @(posedge clk)
         disable iff (!rst_n || failsafe_entered)
-        $rose(cntryrd_sig == common::GREEN) |=> cntryrd_sig == common::GREEN[*G_HOLD];
+        $rose(cntryrd_sig == common::GREEN) |=> cntryrd_sig == common::GREEN[*G_MIN_HOLD];
     endproperty
 
     assert property(cntryrd_min_G_HOLD);

@@ -33,7 +33,7 @@ module sync_async
     /*
     ** asserts
     */
-    
+
     // After raw_in is stable for SYNC_STAGES cycles, raw_in_sync must follow
     property async_in_sync_out;
        @(posedge clk)
